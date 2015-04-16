@@ -1,0 +1,327 @@
+begin
+	% declarations
+	integer x, y
+	integer z1, z2, z3, z4, z5, z6
+
+	boolean a, b
+	boolean c1, c2, c3, c4, c5, c6
+
+	% arithmetic operators
+	x <= -3
+	y <= 4
+
+	z1 <= x + y % 1
+	z2 <= x - y % -7
+	z3 <= x * y % -12
+	z4 <= x / y %
+
+	% logical operators
+	a <= true
+	b <= false
+
+	c1 <= ! a
+	c2 <= a & b
+	c3 <= a | c2
+
+	% comparison operators
+	x <= 6
+	y <= 2
+
+	c1 <= x = y
+	c2 <= x != y
+	c3 <= x < y
+	c4 <= y <= x
+	c5 <= x > y
+	c6 <= y >= x
+end
+
+begin
+	% one dimensional boolean array with single bound
+	boolean array0[2]
+	array0[1] <= true
+	array0[2] <= false
+	
+	% one dimensional integer array with positive general bound
+	integer array1[1 .. 3]
+	array1[1] <= 1
+	array1[2] <= 2
+	array1[3] <= 3
+	
+	% one dimensional integer array with negative general bound
+	integer array2[-3 .. -2]
+	array2[-3] <= -1
+	array2[-2] <= -2
+	
+	% one dimensional integer array with positive and negative general bound
+	integer array3[-1 .. 1]
+	array3[1] <= -5
+	array3[0] <= 5
+	array3[-1] <= 3
+
+	% two dimensional integer array with only single bound
+	integer array4[1, 2]
+	array4[1, 1] <= 1
+	array4[1, 2] <= 2
+
+	% two dimensional integer array with positive and negative general bound 
+	integer array5[1 .. 3, -3 .. -1]
+	array5[1, -1] <= 11
+	array5[2, -2] <= 12
+	array5[3, -3] <= 13 
+	
+	% two dimensional boolean array with general bound and single bound
+	boolean array6[1 .. 4, 4]
+	array6[1, 4] <= false
+	array6[2, 4] <= false 
+	array6[3, 4] <= true
+	array6[4, 4] <= true
+end
+
+
+begin
+	integer k
+	boolean b
+
+	% while-loop conditional exit statement
+	k <= 10
+	while k < 5 do
+		k <= k + 1
+	end
+
+	b <= false
+	while b do
+		k <= -1
+	end
+
+	% while-loop immediate exit statement
+	k <= 5
+	while k < 10 do
+		exit
+	end
+
+	% while-loop exit-when statement
+	k <= 0
+	while k < 10 do
+		k <= k + 1
+		exit when k = 5
+	end
+
+	% while-loop multiple iteration statement
+	k <= 0
+	while k < 10 do
+		k <= k + 1
+	end
+
+	% loop immediate exit statement
+	k <= 0
+	loop
+		exit
+		k <= k + 1
+	end
+
+	% loop pre-exit-when statement
+	k <= 0
+	loop
+		exit when k = 0
+		k <= k - 1
+	end
+
+	% loop post-exit-when statement
+	k <= 1
+	loop
+		k <= k - 1
+		exit when k = 0
+	end
+
+	% loop pre-exit-when multiple iteration statement
+	k <= 10
+	loop
+		exit when k = 0
+		k <= k - 1
+	end
+
+	% loop post-exit-when multiple iteration statement
+	k <= 10
+	loop
+		k <= k - 1
+		exit when k = 0
+	end
+
+end
+begin
+
+	integer k, tk
+	boolean b, tb
+	k <= 10
+	b <= true
+
+	% A procedure that just returns
+	procedure proc begin
+		return
+	end
+
+	% A procedure that has a single integer parameter
+	procedure procParam(integer x) begin
+		put x
+	end
+
+	% A procedure that has multiple parameters
+	procedure procMultParams(integer x, boolean y, integer z) begin
+		put x
+		put z
+	end
+
+	% A procedure that has a branch
+	procedure procBranch(integer x, boolean y, integer z) begin
+		if y then
+			put x
+			put z
+		else
+			put z
+			put x
+		end
+	end
+
+	% A function that returns true
+	boolean function func begin
+		return (true)
+	end
+
+	% A function that has a single integer parameter
+	boolean function funcParam(integer x) begin
+		return (x >= 10)
+	end
+	
+	% A function that has multiple parameters
+	integer function funcMultParams(integer x, boolean y, integer z) begin
+		return (x + z)
+	end
+
+	% A function that has a branch
+	integer function funcBranch(integer x, boolean y, integer z) begin
+		if y then
+			return (x + z)
+		else
+			return (x - z)
+		end
+	end
+
+	% A procedure that calls a function
+	procedure procCall begin
+		boolean t
+		t <= func
+	end
+	
+	% A function that calls a procedure
+	boolean function funcCall begin
+		proc
+		return (true)
+	end
+
+	% Call the procedures
+	proc
+	procParam(5)
+	% Call with a variable
+	procParam(k)
+	procMultParams(10, false, 5)
+	% Mix literals and variables
+	procBranch(10, b, 5)
+	procCall
+
+	% Call the functions
+	tb <= func
+	tb <= funcParam(5)
+	tb <= funcParam(k)
+	tk <= funcMultParams(10, b, 5)
+	tk <= funcBranch(10, false, 5)
+	tb <= funcCall
+	
+end
+begin 
+
+	%Procedure with parameters
+	procedure printLess(integer n) begin
+		if n > 0 then
+			put n
+			printLess(n-1)
+		end
+		return
+	end
+ 
+	%Procdedure without parameters
+	procedure waitForFiveOrMore begin
+		integer x
+		get x
+		if x > 5 then
+			return
+		else
+			waitForFiveOrMore
+		end
+		return
+	end
+
+	%Procedure without parameters  
+	%Procedure with nested procedure declarations
+	procedure levelA begin
+
+		%Embeded procedure declaration
+		procedure levelB begin
+			integer b
+			get b
+			if b = 2 then
+				return
+			end
+			levelA
+			return
+		end
+
+		integer a
+		get a
+		if a = 1 then
+			return
+		end
+		levelB
+		return
+	end
+ 
+	%Function with parameters
+	%Function with nested function delcaration
+	integer function positiveSum(integer n) begin
+
+		%Embeded function declaration
+		integer function ignoreSum(integer n) begin
+			if n = 0 then
+				return (0)
+			end
+			return (positiveSum(n-1))
+		end
+
+		if n = 0 then
+			return (0)
+		end
+		return ( n + ignoreSum(n-1) )
+	end
+
+	%Function without parameters
+	integer function largerThanFive begin
+		integer in
+		get in
+		if in <= 5 then
+			return ( largerThanFive )
+		end
+		return ( in )
+	end
+
+%Call the procedures
+printLess(5)
+waitForFiveOrMore
+levelA
+
+%Call the functions
+integer sum
+integer larger
+
+sum <= positiveSum(5)
+larger <= largerThanFive
+
+end
